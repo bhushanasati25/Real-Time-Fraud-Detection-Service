@@ -45,7 +45,6 @@
 - [Testing](#-testing)
 - [Troubleshooting](#-troubleshooting)
 - [Contributing](#-contributing)
-- [Author](#-author)
 - [License](#-license)
 
 ---
@@ -1372,24 +1371,7 @@ We welcome contributions! Please follow these steps:
 
 ---
 
-## �‍💻 Author
-
-<div align="center">
-
-### **Bhushan Asati**
-
-*Software Engineer*
-
-</div>
-
-| | |
-|:--|:--|
-| 🔗 **GitHub** | [@bhushanasati25](https://github.com/bhushanasati25) |
-| 📂 **Repository** | [Real-Time-Fraud-Detection-Service](https://github.com/bhushanasati25/Real-Time-Fraud-Detection-Service) |
-
----
-
-## �📜 License
+## 📜 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
