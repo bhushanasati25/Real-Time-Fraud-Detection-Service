@@ -15,4 +15,4 @@ jobs:
     steps:
     - uses: actions/checkout@v4
     - name: Build services with Docker Compose
-      run: docker-compose build
+      run: docker compose build
