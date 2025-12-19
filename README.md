@@ -757,7 +757,7 @@ flowchart LR
 ## 📁 Project Structure
 
 ```
-fraud-detection-system/
+Real-Time-Fraud-Detection-Service/
 ├── 📄 docker-compose.yml           # Container orchestration
 ├── 📄 pom.xml                      # Parent Maven POM (multi-module)
 ├── 📄 mvnw                         # Maven wrapper
@@ -849,7 +849,7 @@ Ensure you have the following installed:
 1. **Clone the repository**
    ```bash
    git clone https://github.com/bhushanasati25/Real-Time-Fraud-Detection-Service.git
-   cd fraud-detection-system
+   cd Real-Time-Fraud-Detection-Service
    ```
 
 2. **Start all services with Docker Compose**

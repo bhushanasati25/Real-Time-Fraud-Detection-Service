@@ -15,7 +15,7 @@
     <packaging>jar</packaging>
 
     <name>Notification Service</name>
-    <description>Alert and notification service for fraud detection system</description>
+    <description>Alert and notification service for the Real-Time Fraud Detection System</description>
 
     <dependencies>
         <!-- Common Libraries -->

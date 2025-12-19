@@ -15,7 +15,7 @@
     <packaging>jar</packaging>
 
     <name>Fraud Engine</name>
-    <description>Core fraud detection processing engine with rule-based and ML-based detection</description>
+    <description>Core fraud detection engine for the Real-Time Fraud Detection System</description>
 
     <dependencies>
         <!-- Common Libraries -->
