@@ -90,87 +90,532 @@
 
 ## 🏗 Architecture
 
-### System Overview
+<div align="center">
 
-```
-┌─────────────────────────────────────────────────────────────────────────────────┐
-│                              FRAUD DETECTION SYSTEM                              │
-├─────────────────────────────────────────────────────────────────────────────────┤
-│                                                                                  │
-│   ┌──────────────┐     ┌───────────────────┐     ┌─────────────────────────┐   │
-│   │   Client     │────▶│ Ingestion Service │────▶│     Apache Kafka        │   │
-│   │  (REST API)  │     │    (Port 8080)    │     │  [transaction-events]   │   │
-│   └──────────────┘     └───────────────────┘     └────────────┬────────────┘   │
-│                                                                │               │
-│                         ┌──────────────────────────────────────▼─────────────┐  │
-│                         │              FRAUD ENGINE (Port 8081)              │  │
-│                         │  ┌─────────────────┐   ┌─────────────────────────┐ │  │
-│                         │  │   Rule Engine   │   │    ML Model Client      │ │  │
-│                         │  │  • Amount Rules │   │  • Feature Extraction   │ │  │
-│                         │  │  • Velocity     │   │  • Probability Scoring  │ │  │
-│                         │  │  • Location     │   │  • Confidence Analysis  │ │  │
-│                         │  │  • Time-based   │   │                         │ │  │
-│                         │  └─────────────────┘   └─────────────────────────┘ │  │
-│                         └──────┬─────────────────────────────┬───────────────┘  │
-│                                │                             │                  │
-│          ┌─────────────────────▼────────┐     ┌──────────────▼──────────────┐  │
-│          │       PostgreSQL             │     │     ML Model Service        │  │
-│          │   • Transactions             │     │       (Port 8000)           │  │
-│          │   • Fraud Alerts             │     │   • FastAPI Server          │  │
-│          │   • User Profiles            │     │   • Scikit-learn Model      │  │
-│          │   • Rules Config             │     │   • Real-time Inference     │  │
-│          └──────────────────────────────┘     └─────────────────────────────┘  │
-│                                │                                                │
-│                                │                                                │
-│          ┌─────────────────────▼────────────────────────────────────────────┐  │
-│          │                    Apache Kafka                                   │  │
-│          │                  [fraud-alerts]                                   │  │
-│          └────────────────────────┬─────────────────────────────────────────┘  │
-│                                   │                                             │
-│          ┌────────────────────────▼─────────────────────────────────────────┐  │
-│          │              NOTIFICATION SERVICE (Port 8082)                     │  │
-│          │     ┌───────────┐    ┌───────────┐    ┌───────────┐              │  │
-│          │     │   Email   │    │  Webhook  │    │    SMS    │              │  │
-│          │     │  Service  │    │  Service  │    │  Service  │              │  │
-│          │     └───────────┘    └───────────┘    └───────────┘              │  │
-│          └──────────────────────────────────────────────────────────────────┘  │
-│                                                                                  │
-│   ┌───────────────────────┐                      ┌───────────────────────────┐ │
-│   │        Redis          │                      │        Kafka UI           │ │
-│   │   • Velocity Cache    │                      │      (Port 8090)          │ │
-│   │   • Session State     │                      │   • Topic Monitoring      │ │
-│   │   • Rate Limiting     │                      │   • Message Inspection    │ │
-│   └───────────────────────┘                      └───────────────────────────┘ │
-│                                                                                  │
-└─────────────────────────────────────────────────────────────────────────────────┘
-```
+### High-Level System Architecture
 
-### Data Flow
+</div>
+
+> **Enterprise-grade microservices architecture** combining rule-based fraud detection with machine learning for real-time transaction analysis.
 
 ```mermaid
-sequenceDiagram
-    participant C as Client
-    participant I as Ingestion Service
-    participant K as Kafka
-    participant F as Fraud Engine
-    participant ML as ML Service
-    participant DB as PostgreSQL
-    participant N as Notification Service
+%%{init: {'theme': 'base', 'themeVariables': { 'primaryColor': '#4A90A4', 'primaryTextColor': '#fff', 'primaryBorderColor': '#2C5F6E', 'lineColor': '#5C6BC0', 'secondaryColor': '#E8F5E9', 'tertiaryColor': '#FFF3E0', 'background': '#FAFAFA', 'mainBkg': '#FFFFFF', 'secondBkg': '#F5F5F5', 'border1': '#E0E0E0', 'border2': '#BDBDBD', 'fontFamily': 'arial'}}}%%
 
-    C->>I: POST /api/v1/transactions
-    I->>K: Publish to transaction-events
-    I-->>C: 202 Accepted
-    K->>F: Consume transaction
-    F->>F: Apply Rule Engine
-    F->>ML: Get ML Score
-    ML-->>F: Fraud Probability
-    F->>DB: Persist Transaction
-    F->>K: Publish to fraud-alerts
-    K->>N: Consume fraud alert
-    N->>N: Send Notifications
+flowchart LR
+    subgraph EXTERNAL["  🌐 EXTERNAL  "]
+        direction TB
+        CLIENT["� Client<br/>━━━━━━━━━<br/>REST API"]
+    end
+
+    subgraph INGESTION["  � INGESTION LAYER  "]
+        direction TB
+        API["� Ingestion Service<br/>━━━━━━━━━━━━━━<br/>📍 Port 8080<br/>Spring Boot 3.2"]
+    end
+
+    subgraph STREAMING["  📨 EVENT STREAMING  "]
+        direction TB
+        KAFKA_IN[["� Kafka Topic<br/>transaction-events"]]
+        KAFKA_OUT[["� Kafka Topic<br/>fraud-alerts"]]
+    end
+
+    subgraph CORE["  ⚙️ CORE PROCESSING  "]
+        direction TB
+        ENGINE["🛡️ Fraud Engine<br/>━━━━━━━━━━━━<br/>📍 Port 8081<br/>Spring Boot 3.2"]
+        
+        RULES["📋 Rule Engine<br/>━━━━━━━━━━<br/>• Amount Rules<br/>• Velocity Check<br/>• Location<br/>• Time-based"]
+        
+        ENGINE --- RULES
+    end
+
+    subgraph ML["  � ML LAYER  "]
+        direction TB
+        ML_SVC["🐍 ML Service<br/>━━━━━━━━━━<br/>📍 Port 8000<br/>FastAPI"]
+    end
+
+    subgraph ALERTS["  📢 NOTIFICATIONS  "]
+        direction TB
+        NOTIF["🔔 Notification Service<br/>━━━━━━━━━━━━━━━━<br/>📍 Port 8082<br/>Spring Boot 3.2"]
+        CHANNELS["📧 Email  •  🔗 Webhook  •  📱 SMS"]
+        NOTIF --- CHANNELS
+    end
+
+    subgraph DATA["  💾 DATA LAYER  "]
+        direction LR
+        PG[("🐘 PostgreSQL<br/>Port 5433")]
+        RD[("⚡ Redis<br/>Port 6379")]
+    end
+
+    subgraph MONITOR["  📊 MONITORING  "]
+        direction TB
+        UI["📺 Kafka UI<br/>Port 8090"]
+    end
+
+    CLIENT ==> API
+    API ==> KAFKA_IN
+    KAFKA_IN ==> ENGINE
+    ENGINE <--> ML_SVC
+    ENGINE ==> KAFKA_OUT
+    KAFKA_OUT ==> NOTIF
+    ENGINE <--> PG
+    ENGINE <--> RD
+    KAFKA_IN -.-> UI
+    KAFKA_OUT -.-> UI
+
+    style CLIENT fill:#E3F2FD,stroke:#1565C0,stroke-width:2px,color:#0D47A1
+    style API fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px,color:#1B5E20
+    style KAFKA_IN fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px,color:#E65100
+    style KAFKA_OUT fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px,color:#E65100
+    style ENGINE fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px,color:#4A148C
+    style RULES fill:#EDE7F6,stroke:#5E35B1,stroke-width:2px,color:#311B92
+    style ML_SVC fill:#FCE4EC,stroke:#C2185B,stroke-width:2px,color:#880E4F
+    style NOTIF fill:#E0F2F1,stroke:#00796B,stroke-width:2px,color:#004D40
+    style CHANNELS fill:#B2DFDB,stroke:#00695C,stroke-width:1px,color:#004D40
+    style PG fill:#E1F5FE,stroke:#0277BD,stroke-width:2px,color:#01579B
+    style RD fill:#FFEBEE,stroke:#C62828,stroke-width:2px,color:#B71C1C
+    style UI fill:#ECEFF1,stroke:#546E7A,stroke-width:2px,color:#37474F
 ```
 
 ---
+
+<div align="center">
+
+### 📐 Detailed Component Architecture
+
+</div>
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'fontSize': '14px'}}}%%
+
+flowchart TB
+    subgraph CLIENTS["🌐 CLIENT APPLICATIONS"]
+        WEB["🖥️ Web App"]
+        MOBILE["📱 Mobile App"]
+        PARTNER["🤝 Partner API"]
+    end
+
+    subgraph LB["⚖️ LOAD BALANCER"]
+        NGINX["Nginx / ALB"]
+    end
+
+    subgraph SERVICES["🔧 MICROSERVICES"]
+        subgraph SVC1["INGESTION SERVICE :8080"]
+            direction TB
+            CTRL["TransactionController"]
+            VALID["ValidationService"]
+            KAFKA_PROD["KafkaProducerService"]
+            CTRL --> VALID --> KAFKA_PROD
+        end
+
+        subgraph SVC2["FRAUD ENGINE :8081"]
+            direction TB
+            LISTENER["KafkaListener"]
+            PROCESSOR["TransactionProcessor"]
+            RULE_CHAIN["RuleChain"]
+            ML_CLIENT["MLModelClient"]
+            ALERT_PUB["AlertPublisher"]
+            LISTENER --> PROCESSOR
+            PROCESSOR --> RULE_CHAIN
+            PROCESSOR --> ML_CLIENT
+            PROCESSOR --> ALERT_PUB
+        end
+
+        subgraph SVC3["ML MODEL SERVICE :8000"]
+            direction TB
+            FASTAPI["FastAPI Server"]
+            MODEL["FraudDetectionModel"]
+            FEATURES["FeatureExtractor"]
+            FASTAPI --> FEATURES --> MODEL
+        end
+
+        subgraph SVC4["NOTIFICATION SERVICE :8082"]
+            direction TB
+            ALERT_LISTENER["FraudAlertListener"]
+            EMAIL_SVC["EmailService"]
+            WEBHOOK_SVC["WebhookService"]
+            SMS_SVC["SmsService"]
+            ALERT_LISTENER --> EMAIL_SVC
+            ALERT_LISTENER --> WEBHOOK_SVC
+            ALERT_LISTENER --> SMS_SVC
+        end
+    end
+
+    subgraph MESSAGING["📨 APACHE KAFKA CLUSTER"]
+        direction LR
+        ZK["🔷 Zookeeper<br/>:2181"]
+        BROKER["🔶 Kafka Broker<br/>:9092"]
+        TOPIC1["📋 transaction-events"]
+        TOPIC2["📋 fraud-alerts"]
+        ZK --- BROKER
+        BROKER --- TOPIC1
+        BROKER --- TOPIC2
+    end
+
+    subgraph PERSISTENCE["💾 DATA STORES"]
+        direction LR
+        subgraph PG_CLUSTER["PostgreSQL :5433"]
+            PG_MASTER[("🐘 Primary")]
+        end
+        subgraph REDIS_CLUSTER["Redis :6379"]
+            REDIS_MASTER[("⚡ Cache")]
+        end
+    end
+
+    WEB & MOBILE & PARTNER --> NGINX
+    NGINX --> SVC1
+    KAFKA_PROD --> TOPIC1
+    TOPIC1 --> LISTENER
+    ML_CLIENT <--> FASTAPI
+    ALERT_PUB --> TOPIC2
+    TOPIC2 --> ALERT_LISTENER
+    PROCESSOR --> PG_MASTER
+    PROCESSOR --> REDIS_MASTER
+
+    classDef serviceBox fill:#E8F5E9,stroke:#2E7D32,stroke-width:2px
+    classDef kafkaBox fill:#FFF3E0,stroke:#EF6C00,stroke-width:2px
+    classDef dataBox fill:#E3F2FD,stroke:#1565C0,stroke-width:2px
+
+    class SVC1,SVC2,SVC3,SVC4 serviceBox
+    class MESSAGING kafkaBox
+    class PERSISTENCE dataBox
+```
+
+---
+
+<div align="center">
+
+### 🗄️ Database Schema
+
+</div>
+
+```mermaid
+erDiagram
+    TRANSACTIONS ||--o{ FRAUD_ALERTS : generates
+    TRANSACTIONS }o--|| USER_PROFILES : belongs_to
+    RULES_CONFIG ||--o{ FRAUD_ALERTS : triggers
+    AUDIT_LOG }o--|| TRANSACTIONS : logs
+
+    TRANSACTIONS {
+        bigint id PK
+        varchar transaction_id UK
+        decimal amount
+        varchar currency
+        varchar user_id FK
+        varchar merchant_id
+        varchar merchant_name
+        varchar location
+        varchar ip_address
+        varchar channel
+        varchar status
+        boolean is_fraud
+        decimal fraud_score
+        text fraud_reason
+        array rules_triggered
+        int processing_time_ms
+        timestamp created_at
+        timestamp processed_at
+    }
+
+    FRAUD_ALERTS {
+        bigint id PK
+        varchar alert_id UK
+        varchar transaction_id FK
+        varchar alert_type
+        varchar severity
+        decimal fraud_score
+        array rules_triggered
+        text description
+        text recommended_action
+        varchar status
+        timestamp created_at
+        timestamp resolved_at
+    }
+
+    USER_PROFILES {
+        bigint id PK
+        varchar user_id UK
+        varchar email
+        varchar phone
+        varchar country
+        decimal typical_amount
+        varchar last_known_ip
+        varchar last_known_location
+        timestamp last_transaction_at
+        int transaction_count_24h
+        decimal total_amount_24h
+        decimal risk_score
+        timestamp created_at
+        timestamp updated_at
+    }
+
+    RULES_CONFIG {
+        bigint id PK
+        varchar rule_id UK
+        varchar rule_name
+        varchar rule_type
+        text description
+        decimal threshold_value
+        varchar severity
+        boolean is_active
+        int priority
+        timestamp created_at
+    }
+
+    AUDIT_LOG {
+        bigint id PK
+        varchar entity_type
+        varchar entity_id
+        varchar action
+        jsonb old_value
+        jsonb new_value
+        varchar performed_by
+        timestamp created_at
+    }
+```
+
+---
+
+<div align="center">
+
+### 🐳 Docker Deployment Architecture
+
+</div>
+
+```mermaid
+%%{init: {'theme': 'base'}}%%
+
+flowchart TB
+    subgraph DOCKER["� DOCKER COMPOSE ENVIRONMENT"]
+        direction TB
+        
+        subgraph NETWORK["🌐 fraud-detection-network (bridge)"]
+            direction LR
+            
+            subgraph INFRA["Infrastructure Services"]
+                direction TB
+                ZK["📦 zookeeper<br/>━━━━━━━━━<br/>confluentinc/cp-zookeeper:7.5<br/>📍 :2181"]
+                KAFKA["📦 kafka<br/>━━━━━━━━━<br/>confluentinc/cp-kafka:7.5<br/>📍 :9092, :29092"]
+                PG["📦 postgres<br/>━━━━━━━━━<br/>postgres:16-alpine<br/>📍 :5433→5432"]
+                REDIS["📦 redis<br/>━━━━━━━━━<br/>redis:7-alpine<br/>📍 :6379"]
+                
+                ZK --> KAFKA
+            end
+            
+            subgraph APPS["Application Services"]
+                direction TB
+                ING["📦 ingestion-service<br/>━━━━━━━━━━━━━━<br/>Spring Boot JAR<br/>📍 :8080"]
+                FE["📦 fraud-engine<br/>━━━━━━━━━━━━━━<br/>Spring Boot JAR<br/>📍 :8081"]
+                NS["📦 notification-service<br/>━━━━━━━━━━━━━━<br/>Spring Boot JAR<br/>📍 :8082"]
+                ML["📦 ml-model-service<br/>━━━━━━━━━━━━━━<br/>Python FastAPI<br/>📍 :8000"]
+            end
+            
+            subgraph TOOLS["Monitoring Tools"]
+                direction TB
+                KUI["📦 kafka-ui<br/>━━━━━━━━━<br/>provectuslabs/kafka-ui<br/>📍 :8090→8080"]
+            end
+        end
+        
+        subgraph VOLUMES["� Persistent Volumes"]
+            direction LR
+            V1["zookeeper-data"]
+            V2["kafka-data"]
+            V3["postgres-data"]
+            V4["redis-data"]
+            V5["ml-model-data"]
+        end
+    end
+    
+    KAFKA --> ING
+    KAFKA --> FE
+    KAFKA --> NS
+    PG --> FE
+    REDIS --> FE
+    FE --> ML
+    KAFKA --> KUI
+
+    style ZK fill:#E8F5E9,stroke:#2E7D32
+    style KAFKA fill:#FFF3E0,stroke:#EF6C00
+    style PG fill:#E3F2FD,stroke:#1565C0
+    style REDIS fill:#FFEBEE,stroke:#C62828
+    style ING fill:#E8F5E9,stroke:#2E7D32
+    style FE fill:#F3E5F5,stroke:#7B1FA2
+    style NS fill:#E0F2F1,stroke:#00796B
+    style ML fill:#FCE4EC,stroke:#C2185B
+    style KUI fill:#ECEFF1,stroke:#546E7A
+```
+
+---
+
+<div align="center">
+
+### 🔄 Transaction Processing Flow
+
+</div>
+
+```mermaid
+%%{init: {'theme': 'base', 'themeVariables': { 'actorLineColor': '#5C6BC0', 'signalColor': '#5C6BC0'}}}%%
+
+sequenceDiagram
+    autonumber
+    
+    box rgb(227, 242, 253) Client Layer
+        participant C as � Client
+    end
+    
+    box rgb(232, 245, 233) API Gateway
+        participant I as 📥 Ingestion<br/>Service
+    end
+    
+    box rgb(255, 243, 224) Event Streaming
+        participant K as 🔶 Apache<br/>Kafka
+    end
+    
+    box rgb(243, 229, 245) Processing Layer
+        participant F as 🛡️ Fraud<br/>Engine
+        participant R as 📋 Rule<br/>Engine
+    end
+    
+    box rgb(252, 228, 236) ML Layer
+        participant M as 🧠 ML Model<br/>Service
+    end
+    
+    box rgb(225, 245, 254) Data Layer
+        participant D as 🐘 PostgreSQL
+        participant RD as ⚡ Redis
+    end
+    
+    box rgb(224, 242, 241) Notification Layer
+        participant N as 📢 Notification<br/>Service
+    end
+
+    Note over C,N: 🚀 TRANSACTION PROCESSING PIPELINE
+
+    rect rgb(232, 245, 233)
+        Note right of C: Step 1: Transaction Submission
+        C->>+I: POST /api/v1/transactions
+        I->>I: Validate payload
+        I->>K: Publish to transaction-events
+        I-->>-C: 202 Accepted + Receipt
+    end
+
+    rect rgb(243, 229, 245)
+        Note right of K: Step 2: Fraud Analysis
+        K->>+F: Consume transaction event
+        F->>+RD: Check velocity cache
+        RD-->>-F: User transaction history
+        F->>+R: Execute rule chain
+        R->>R: Amount threshold check
+        R->>R: Velocity check
+        R->>R: Location anomaly check
+        R->>R: Time-based check
+        R-->>-F: Rule scores + triggered rules
+    end
+
+    rect rgb(252, 228, 236)
+        Note right of F: Step 3: ML Prediction
+        F->>+M: POST /predict (features)
+        M->>M: Feature extraction
+        M->>M: Model inference
+        M-->>-F: Fraud probability + confidence
+        F->>F: Combine scores (60% rules + 40% ML)
+        F->>F: Determine risk level
+    end
+
+    rect rgb(225, 245, 254)
+        Note right of F: Step 4: Persistence
+        F->>+D: INSERT transaction + result
+        D-->>-F: Confirmed
+        F->>RD: Update velocity cache
+    end
+
+    rect rgb(224, 242, 241)
+        Note right of F: Step 5: Alert Generation
+        alt Fraud Detected
+            F->>K: Publish to fraud-alerts
+            K->>+N: Consume fraud alert
+            par Send Notifications
+                N->>N: Send Email
+                N->>N: Call Webhook
+                N->>N: Send SMS
+            end
+            N-->>-F: Notifications sent
+        end
+    end
+
+    Note over C,N: ✅ PROCESSING COMPLETE (~50-200ms)
+```
+
+---
+
+<div align="center">
+
+### 📊 Service Communication Matrix
+
+</div>
+
+| Source Service | Target Service | Protocol | Port | Topic/Endpoint |
+|:--------------|:---------------|:---------|:-----|:---------------|
+| Client | Ingestion Service | HTTP/REST | 8080 | `/api/v1/transactions` |
+| Ingestion Service | Kafka | TCP | 9092 | `transaction-events` |
+| Kafka | Fraud Engine | TCP | 9092 | `transaction-events` |
+| Fraud Engine | ML Service | HTTP/REST | 8000 | `/predict` |
+| Fraud Engine | PostgreSQL | TCP | 5432 | JDBC |
+| Fraud Engine | Redis | TCP | 6379 | Redis Protocol |
+| Fraud Engine | Kafka | TCP | 9092 | `fraud-alerts` |
+| Kafka | Notification Service | TCP | 9092 | `fraud-alerts` |
+
+---
+
+<div align="center">
+
+### 🎯 Processing Pipeline Overview
+
+</div>
+
+```mermaid
+%%{init: {'theme': 'base'}}%%
+
+flowchart LR
+    subgraph INPUT["📥 INPUT"]
+        A["Transaction<br/>Request"]
+    end
+
+    subgraph VALIDATE["✅ VALIDATE"]
+        B["Schema<br/>Validation"]
+    end
+
+    subgraph ENRICH["📊 ENRICH"]
+        C["Add Metadata<br/>& Timestamp"]
+    end
+
+    subgraph ANALYZE["🔍 ANALYZE"]
+        D["Rule<br/>Engine"]
+        E["ML<br/>Model"]
+    end
+
+    subgraph DECIDE["⚖️ DECIDE"]
+        F["Risk<br/>Scoring"]
+    end
+
+    subgraph ACTION["🎯 ACTION"]
+        G["✅ APPROVE"]
+        H["⚠️ REVIEW"]
+        I["🚫 BLOCK"]
+    end
+
+    A --> B --> C --> D & E
+    D & E --> F
+    F --> G & H & I
+
+    style A fill:#E3F2FD,stroke:#1976D2,stroke-width:2px
+    style B fill:#E8F5E9,stroke:#388E3C,stroke-width:2px
+    style C fill:#FFF3E0,stroke:#F57C00,stroke-width:2px
+    style D fill:#F3E5F5,stroke:#7B1FA2,stroke-width:2px
+    style E fill:#FCE4EC,stroke:#C2185B,stroke-width:2px
+    style F fill:#E0F7FA,stroke:#0097A7,stroke-width:2px
+    style G fill:#C8E6C9,stroke:#43A047,stroke-width:3px
+    style H fill:#FFF9C4,stroke:#FBC02D,stroke-width:3px
+    style I fill:#FFCDD2,stroke:#E53935,stroke-width:3px
+```
 
 ## 🛠 Technology Stack
 
