@@ -1,0 +1,8 @@
+com/fraud/ingestion/service/TransactionIngestionService.class
+com/fraud/ingestion/config/KafkaProducerConfig.class
+com/fraud/ingestion/IngestionServiceApplication.class
+com/fraud/ingestion/service/KafkaProducerService.class
+com/fraud/ingestion/service/TransactionValidatorService.class
+com/fraud/ingestion/exception/GlobalExceptionHandler.class
+com/fraud/ingestion/controller/TransactionController.class
+com/fraud/ingestion/config/OpenApiConfig.class

@@ -1,0 +1,6 @@
+/Users/ihack-pc/Desktop/Project/Real-Time Fraud Detection Service/fraud-detection-system/notification-service/src/main/java/com/fraud/notification/config/KafkaConsumerConfig.java
+/Users/ihack-pc/Desktop/Project/Real-Time Fraud Detection Service/fraud-detection-system/notification-service/src/main/java/com/fraud/notification/service/NotificationService.java
+/Users/ihack-pc/Desktop/Project/Real-Time Fraud Detection Service/fraud-detection-system/notification-service/src/main/java/com/fraud/notification/service/WebhookService.java
+/Users/ihack-pc/Desktop/Project/Real-Time Fraud Detection Service/fraud-detection-system/notification-service/src/main/java/com/fraud/notification/NotificationServiceApplication.java
+/Users/ihack-pc/Desktop/Project/Real-Time Fraud Detection Service/fraud-detection-system/notification-service/src/main/java/com/fraud/notification/listener/FraudAlertListener.java
+/Users/ihack-pc/Desktop/Project/Real-Time Fraud Detection Service/fraud-detection-system/notification-service/src/main/java/com/fraud/notification/service/EmailService.java
