@@ -1376,15 +1376,9 @@ We welcome contributions! Please follow these steps:
 
 <div align="center">
 
-<img src="https://github.com/bhushanasati25.png" width="100" height="100" style="border-radius: 50%;" alt="Bhushan Asati"/>
-
 ### **Bhushan Asati**
 
-*Full Stack Developer | Software Engineer*
-
-[![GitHub](https://img.shields.io/badge/GitHub-bhushanasati25-181717?style=for-the-badge&logo=github)](https://github.com/bhushanasati25)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Bhushan_Asati-0A66C2?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/bhushanasati25)
-[![Email](https://img.shields.io/badge/Email-Contact-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:bhushanasati25@gmail.com)
+*Software Engineer*
 
 </div>
 
@@ -1392,7 +1386,6 @@ We welcome contributions! Please follow these steps:
 |:--|:--|
 | 🔗 **GitHub** | [@bhushanasati25](https://github.com/bhushanasati25) |
 | 📂 **Repository** | [Real-Time-Fraud-Detection-Service](https://github.com/bhushanasati25/Real-Time-Fraud-Detection-Service) |
-| 📅 **Created** | December 2024 |
 
 ---
 
