@@ -4,6 +4,8 @@
 
 ### Enterprise-Grade Event-Driven Fraud Detection Platform
 
+**👨‍💻 Developed by [Bhushan Asati](https://github.com/bhushanasati25)**
+
 [![Java](https://img.shields.io/badge/Java-17-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white)](https://openjdk.org/)
 [![Spring Boot](https://img.shields.io/badge/Spring%20Boot-3.2-6DB33F?style=for-the-badge&logo=spring-boot&logoColor=white)](https://spring.io/projects/spring-boot)
 [![Apache Kafka](https://img.shields.io/badge/Apache%20Kafka-7.5-231F20?style=for-the-badge&logo=apache-kafka&logoColor=white)](https://kafka.apache.org/)
@@ -43,6 +45,7 @@
 - [Testing](#-testing)
 - [Troubleshooting](#-troubleshooting)
 - [Contributing](#-contributing)
+- [Author](#-author)
 - [License](#-license)
 
 ---
@@ -845,7 +848,7 @@ Ensure you have the following installed:
 
 1. **Clone the repository**
    ```bash
-   git clone https://github.com/your-username/fraud-detection-system.git
+   git clone https://github.com/bhushanasati25/Real-Time-Fraud-Detection-Service.git
    cd fraud-detection-system
    ```
 
@@ -1369,7 +1372,31 @@ We welcome contributions! Please follow these steps:
 
 ---
 
-## 📜 License
+## �‍💻 Author
+
+<div align="center">
+
+<img src="https://github.com/bhushanasati25.png" width="100" height="100" style="border-radius: 50%;" alt="Bhushan Asati"/>
+
+### **Bhushan Asati**
+
+*Full Stack Developer | Software Engineer*
+
+[![GitHub](https://img.shields.io/badge/GitHub-bhushanasati25-181717?style=for-the-badge&logo=github)](https://github.com/bhushanasati25)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Bhushan_Asati-0A66C2?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/bhushanasati25)
+[![Email](https://img.shields.io/badge/Email-Contact-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:bhushanasati25@gmail.com)
+
+</div>
+
+| | |
+|:--|:--|
+| 🔗 **GitHub** | [@bhushanasati25](https://github.com/bhushanasati25) |
+| 📂 **Repository** | [Real-Time-Fraud-Detection-Service](https://github.com/bhushanasati25/Real-Time-Fraud-Detection-Service) |
+| 📅 **Created** | December 2024 |
+
+---
+
+## �📜 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
@@ -1379,9 +1406,12 @@ This project is licensed under the MIT License - see the [LICENSE](LICENSE) file
 
 ### ⭐ Star this repository if you find it helpful!
 
-**Built with ❤️ for secure transactions**
+**Developed with ❤️ by [Bhushan Asati](https://github.com/bhushanasati25)**
 
-[Report Bug](https://github.com/your-username/fraud-detection-system/issues) •
-[Request Feature](https://github.com/your-username/fraud-detection-system/issues)
+[![GitHub](https://img.shields.io/badge/GitHub-bhushanasati25-181717?style=for-the-badge&logo=github)](https://github.com/bhushanasati25)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin)](https://linkedin.com/in/bhushanasati25)
+
+[Report Bug](https://github.com/bhushanasati25/Real-Time-Fraud-Detection-Service/issues) •
+[Request Feature](https://github.com/bhushanasati25/Real-Time-Fraud-Detection-Service/issues)
 
 </div>
