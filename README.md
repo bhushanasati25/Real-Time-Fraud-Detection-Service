@@ -619,67 +619,135 @@ flowchart LR
 
 ## 🛠 Technology Stack
 
+<div align="center">
+
+### Core Technologies
+
+</div>
+
 <table>
 <tr>
 <td align="center" width="20%">
-
-### Backend Services
-- Java 17
-- Spring Boot 3.2
-- Spring Kafka
-- Spring Data JPA
-- Hibernate
-
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/java/java-original.svg" width="48" height="48" alt="Java"/>
+<br><b>Backend Services</b>
+<br><br>
+<img src="https://img.shields.io/badge/Java-17-ED8B00?style=flat-square&logo=openjdk&logoColor=white"/>
+<br>
+<img src="https://img.shields.io/badge/Spring_Boot-3.2-6DB33F?style=flat-square&logo=spring-boot&logoColor=white"/>
+<br>
+<img src="https://img.shields.io/badge/Spring_Kafka-3.1-6DB33F?style=flat-square&logo=spring&logoColor=white"/>
+<br>
+<img src="https://img.shields.io/badge/Spring_Data_JPA-3.2-6DB33F?style=flat-square&logo=spring&logoColor=white"/>
+<br>
+<img src="https://img.shields.io/badge/Hibernate-6.4-59666C?style=flat-square&logo=hibernate&logoColor=white"/>
 </td>
 <td align="center" width="20%">
-
-### ML Service
-- Python 3.11
-- FastAPI
-- Scikit-learn
-- NumPy
-- Pydantic
-
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg" width="48" height="48" alt="Python"/>
+<br><b>ML Service</b>
+<br><br>
+<img src="https://img.shields.io/badge/Python-3.11-3776AB?style=flat-square&logo=python&logoColor=white"/>
+<br>
+<img src="https://img.shields.io/badge/FastAPI-0.104-009688?style=flat-square&logo=fastapi&logoColor=white"/>
+<br>
+<img src="https://img.shields.io/badge/Scikit--learn-1.3-F7931E?style=flat-square&logo=scikit-learn&logoColor=white"/>
+<br>
+<img src="https://img.shields.io/badge/NumPy-1.26-013243?style=flat-square&logo=numpy&logoColor=white"/>
+<br>
+<img src="https://img.shields.io/badge/Pydantic-2.5-E92063?style=flat-square&logo=pydantic&logoColor=white"/>
 </td>
 <td align="center" width="20%">
-
-### Message Broker
-- Apache Kafka
-- Zookeeper
-- Kafka UI
-
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/apachekafka/apachekafka-original.svg" width="48" height="48" alt="Kafka"/>
+<br><b>Message Broker</b>
+<br><br>
+<img src="https://img.shields.io/badge/Apache_Kafka-7.5-231F20?style=flat-square&logo=apache-kafka&logoColor=white"/>
+<br>
+<img src="https://img.shields.io/badge/Zookeeper-3.8-D22128?style=flat-square&logo=apache&logoColor=white"/>
+<br>
+<img src="https://img.shields.io/badge/Kafka_UI-Latest-000000?style=flat-square&logo=apache-kafka&logoColor=white"/>
+<br>
+<img src="https://img.shields.io/badge/Confluent-7.5-173361?style=flat-square"/>
 </td>
 <td align="center" width="20%">
-
-### Databases
-- PostgreSQL 16
-- Redis 7
-
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/postgresql/postgresql-original.svg" width="48" height="48" alt="PostgreSQL"/>
+<br><b>Data Storage</b>
+<br><br>
+<img src="https://img.shields.io/badge/PostgreSQL-16-4169E1?style=flat-square&logo=postgresql&logoColor=white"/>
+<br>
+<img src="https://img.shields.io/badge/Redis-7-DC382D?style=flat-square&logo=redis&logoColor=white"/>
+<br>
+<img src="https://img.shields.io/badge/JDBC-42.7-4169E1?style=flat-square&logo=postgresql&logoColor=white"/>
+<br>
+<img src="https://img.shields.io/badge/HikariCP-5.1-00CED1?style=flat-square"/>
 </td>
 <td align="center" width="20%">
-
-### DevOps
-- Docker
-- Docker Compose
-- Maven
-
+<img src="https://cdn.jsdelivr.net/gh/devicons/devicon/icons/docker/docker-original.svg" width="48" height="48" alt="Docker"/>
+<br><b>DevOps</b>
+<br><br>
+<img src="https://img.shields.io/badge/Docker-24.0-2496ED?style=flat-square&logo=docker&logoColor=white"/>
+<br>
+<img src="https://img.shields.io/badge/Docker_Compose-2.24-2496ED?style=flat-square&logo=docker&logoColor=white"/>
+<br>
+<img src="https://img.shields.io/badge/Maven-3.9-C71A36?style=flat-square&logo=apache-maven&logoColor=white"/>
+<br>
+<img src="https://img.shields.io/badge/GitHub_Actions-CI/CD-2088FF?style=flat-square&logo=github-actions&logoColor=white"/>
 </td>
 </tr>
 </table>
 
-### Dependencies Overview
+<div align="center">
 
-| Component | Version | Purpose |
-|-----------|---------|---------|
-| Spring Boot | 3.2.1 | Application framework |
-| Spring Kafka | 3.1.1 | Kafka integration |
-| PostgreSQL Driver | 42.7.1 | Database connectivity |
-| Lombok | 1.18.30 | Boilerplate reduction |
-| MapStruct | 1.5.5 | DTO mapping |
-| SpringDoc OpenAPI | 2.3.0 | API documentation |
-| Micrometer | 1.12.1 | Metrics & monitoring |
-| FastAPI | 0.104+ | ML REST API |
-| Scikit-learn | 1.3+ | ML model training |
+### 📦 Dependencies & Versions
+
+</div>
+
+| Category | Component | Version | Purpose | License |
+|:--------:|:----------|:-------:|:--------|:-------:|
+| 🟢 **Core** | Spring Boot | `3.2.1` | Application framework | Apache 2.0 |
+| 🟢 **Core** | Spring Kafka | `3.1.1` | Kafka messaging integration | Apache 2.0 |
+| 🟢 **Core** | Spring Data JPA | `3.2.1` | Database abstraction layer | Apache 2.0 |
+| 🔵 **Database** | PostgreSQL Driver | `42.7.1` | JDBC database connectivity | BSD-2-Clause |
+| 🔵 **Database** | HikariCP | `5.1.0` | High-performance connection pool | Apache 2.0 |
+| 🔴 **Cache** | Jedis | `5.1.0` | Redis Java client | MIT |
+| 🟣 **API** | SpringDoc OpenAPI | `2.3.0` | API documentation (Swagger) | Apache 2.0 |
+| 🟣 **API** | Jackson | `2.16.1` | JSON serialization | Apache 2.0 |
+| 🟡 **Tooling** | Lombok | `1.18.30` | Boilerplate code reduction | MIT |
+| 🟡 **Tooling** | MapStruct | `1.5.5` | Type-safe DTO mapping | Apache 2.0 |
+| 📊 **Metrics** | Micrometer | `1.12.1` | Application metrics & monitoring | Apache 2.0 |
+| 🐍 **Python** | FastAPI | `0.104+` | Async REST API framework | MIT |
+| 🐍 **Python** | Scikit-learn | `1.3+` | Machine learning library | BSD-3-Clause |
+| 🐍 **Python** | Pydantic | `2.5+` | Data validation | MIT |
+
+<div align="center">
+
+### 🏷️ Version Compatibility Matrix
+
+</div>
+
+```
+┌─────────────────────────────────────────────────────────────────────────┐
+│                        TECHNOLOGY VERSIONS                               │
+├─────────────────────────────────────────────────────────────────────────┤
+│                                                                          │
+│   Java ══════════════════════╗                                          │
+│        17 LTS                ║                                          │
+│                              ║                                          │
+│   Spring Boot ═══════════════╬═══════════════════ Spring Ecosystem      │
+│           3.2.1              ║        │                                 │
+│                              ║        ├── Spring Kafka 3.1.1            │
+│   Python ════════════════════╣        ├── Spring Data JPA 3.2.1         │
+│       3.11                   ║        └── Spring Security 6.2.1         │
+│                              ║                                          │
+│   Apache Kafka ══════════════╣                                          │
+│          7.5.0 (Confluent)   ║                                          │
+│                              ║                                          │
+│   PostgreSQL ════════════════╣                                          │
+│          16.x                ║                                          │
+│                              ║                                          │
+│   Redis ═════════════════════╝                                          │
+│      7.x                                                                 │
+│                                                                          │
+└─────────────────────────────────────────────────────────────────────────┘
+```
 
 ---
 
