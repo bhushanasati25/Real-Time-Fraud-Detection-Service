@@ -1344,7 +1344,7 @@ docker-compose up -d
 
 ---
 
-## 🤝 Contributing
+## Contributing
 
 We welcome contributions! Please follow these steps:
 
@@ -1371,7 +1371,7 @@ We welcome contributions! Please follow these steps:
 
 ---
 
-## 📜 License
+## License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
